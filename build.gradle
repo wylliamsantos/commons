@@ -37,16 +37,18 @@ publishing {
 	publications {
 		gpr(MavenPublication) {
 			from(components.java)
+
+			versionMapping {
+				usage('java-api') {
+					fromResolutionOf('runtimeClasspath')
+				}
+				usage('java-runtime') {
+					fromResolutionResult()
+				}
+			}
 		}
 	}
-	versionMapping {
-		usage('java-api') {
-			fromResolutionOf('implementation')
-		}
-		usage('java-runtime') {
-			fromResolutionResult()
-		}
-	}
+
 }
 
 def getVersion() {
