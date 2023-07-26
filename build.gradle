@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'br.com.taskmanager'
-version = '0.0.1-SNAPSHOT'
+version = getVersion()
 
 java {
 	sourceCompatibility = '19'
@@ -39,4 +39,18 @@ publishing {
 			from(components.java)
 		}
 	}
+	versionMapping {
+		usage('java-api') {
+			fromResolutionOf('implementation')
+		}
+		usage('java-runtime') {
+			fromResolutionResult()
+		}
+	}
+}
+
+def getVersion() {
+	def gitDescribe = 'git describe --tags --abbrev=0'.execute().text.trim()
+	def tag = gitDescribe.replaceAll('^v', '') // Remove o prefixo 'v' da tag (se existir)
+	return tag
 }
